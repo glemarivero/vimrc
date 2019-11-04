@@ -29,6 +29,7 @@ Bundle 'Valloric/YouCompleteMe'
 Plugin 'vimwiki/vimwiki'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'vim-vdebug/vdebug'
+Bundle 'mattn/calendar-vim'
 
 " ...
 
@@ -253,3 +254,5 @@ let g:gutentags_ctags_exclude = [
       \ ]
 
 set statusline+=%{gutentags#statusline()}
+
+nnoremap <leader>c :Calendar<CR>
