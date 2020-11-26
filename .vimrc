@@ -30,6 +30,8 @@ Plugin 'vimwiki/vimwiki'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'vim-vdebug/vdebug'
 Bundle 'mattn/calendar-vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'dyng/ctrlsf.vim'
 
 " ...
 
@@ -191,6 +193,7 @@ nnoremap cw ciw
 " open NerdTree with Ctrl-n
 nnoremap <C-n> :NERDTreeToggle<CR>
 nmap =j :%!python -m json.tool<CR>
+nmap =jn :%!strip_ipynb<CR>
 nmap yr :call system("ssh -p 2222 127.0.0.1 pbcopy", @*)<CR>
 vmap yr :call system("ssh -p 2222 127.0.0.1 pbcopy", @*)<CR>
 let g:vimwiki_list = [{
@@ -256,3 +259,20 @@ let g:gutentags_ctags_exclude = [
 set statusline+=%{gutentags#statusline()}
 
 nnoremap <leader>c :Calendar<CR>
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+nnoremap <leader>g :silent lgrep<Space>
+nnoremap <silent> [f :lprevious<CR>
+nnoremap <silent> ]f :lnext<CR>
+
+" CtflSF
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+
+" copy from vim
+nnoremap <C-L> :set relativenumber! number!<CR>
