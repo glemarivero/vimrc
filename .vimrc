@@ -25,15 +25,19 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'heavenshell/vim-pydocstring'
-Bundle 'Valloric/YouCompleteMe'
 Plugin 'vimwiki/vimwiki'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'vim-vdebug/vdebug'
 Bundle 'mattn/calendar-vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'dyng/ctrlsf.vim'
-
-" ...
+Plugin 'dense-analysis/ale'
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'Shougo/neopairs.vim'
+Plugin 'Shougo/denite.nvim'
+Plugin 'roxma/vim-hug-neovim-rpc'
+Plugin 'roxma/nvim-yarp'
+Plugin 'deoplete-plugins/deoplete-jedi'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -186,7 +190,7 @@ vmap <C-c> "+y
 map <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap <C-n> <C-a>:w<cr>
 nnoremap <C-p> <C-x>:w<cr>
-:map <C-j> ciw<C-r>0<ESC>
+map <C-j> ciw<C-r>0<ESC>
 " use change inside word instead of change word
 " we can still use cW for cw
 nnoremap cw ciw
@@ -206,57 +210,6 @@ let g:vimwiki_list = [{
 	\ 'custom_wiki2html': 'vimwiki_markdown',
 	\ 'template_ext': '.tpl'}]
 noremap <leader>www :VimwikiAll2HTML<CR>
-let g:gutentags_add_default_project_roots = 0
-let g:gutentags_project_root = ['.root_ulta']
-let g:gutentags_ctags_exclude = [
-      \ '*.git', '*.svg', '*.hg',
-      \ '*/tests/*',
-      \ 'build',
-      \ 'dist',
-      \ '*sites/*/files/*',
-      \ 'bin',
-      \ 'node_modules',
-      \ 'bower_components',
-      \ 'cache',
-      \ 'compiled',
-      \ 'docs',
-      \ 'example',
-      \ 'bundle',
-      \ 'vendor',
-      \ '*.md',
-      \ '*-lock.json',
-      \ '*.lock',
-      \ '*bundle*.js',
-      \ '*build*.js',
-      \ '.*rc*',
-      \ '*.json',
-      \ '*.min.*',
-      \ '*.map',
-      \ '*.bak',
-      \ '*.zip',
-      \ '*.pyc',
-      \ '*.class',
-      \ '*.sln',
-      \ '*.Master',
-      \ '*.csproj',
-      \ '*.tmp',
-      \ '*.csproj.user',
-      \ '*.cache',
-      \ '*.pdb',
-      \ 'tags*',
-      \ 'cscope.*',
-      \ '*.css',
-      \ '*.less',
-      \ '*.scss',
-      \ '*.exe', '*.dll',
-      \ '*.mp3', '*.ogg', '*.flac',
-      \ '*.swp', '*.swo',
-      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
-      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-      \ ]
-
-set statusline+=%{gutentags#statusline()}
 
 nnoremap <leader>c :Calendar<CR>
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
@@ -276,3 +229,11 @@ inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 
 " copy from vim
 nnoremap <C-L> :set relativenumber! number!<CR>
+
+
+let g:ale_linters = { 'python': ['pyls', 'vulture', 'flake8', 'pytlint']}
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap  <C-]> :ALEGoToDefinition <CR>
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
