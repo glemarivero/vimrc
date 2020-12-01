@@ -14,6 +14,7 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 " Plugin 'vim-syntastic/syntastic'
+Plugin 'pixelneo/vim-python-docstring'
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jnurmine/Zenburn'
@@ -227,13 +228,19 @@ nnoremap <C-F>o :CtrlSFOpen<CR>
 nnoremap <C-F>t :CtrlSFToggle<CR>
 inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 
+" Py docstring default mapping
+nmap <silent> <C-_> <Plug>(pydocstring)
+
 " copy from vim
 nnoremap <C-L> :set relativenumber! number!<CR>
 
 
-let g:ale_linters = { 'python': ['pyls', 'vulture', 'flake8', 'pytlint']}
+" let g:ale_linters = { 'python': ['pyls', 'vulture']}
+let g:ale_linters = { 'python': ['pyls']}
+" let g:ale_linters = { 'python': ['vulture']}
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 nmap  <C-]> :ALEGoToDefinition <CR>
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
+let g:ale_python_flake8_options = '--ignore=E501'
