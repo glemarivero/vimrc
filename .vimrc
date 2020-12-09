@@ -237,6 +237,13 @@ nnoremap <C-L> :set relativenumber! number!<CR>
 
 " let g:ale_linters = { 'python': ['pyls', 'vulture']}
 let g:ale_linters = { 'python': ['pyls']}
+" pip install python-language-server
+" to change the max-line-length:
+" and then in ~/.config/pycodestyle
+" [pycodestyle]
+" max-line-length = 100
+" https://github.com/palantir/python-language-server/issues/329
+
 " let g:ale_linters = { 'python': ['vulture']}
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
