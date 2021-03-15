@@ -39,6 +39,11 @@ Plugin 'Shougo/denite.nvim'
 Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'roxma/nvim-yarp'
 Plugin 'deoplete-plugins/deoplete-jedi'
+Plugin 'joshdick/onedark.vim'
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'puremourning/vimspector'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -248,6 +253,66 @@ let g:ale_linters = { 'python': ['pyls']}
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 nmap  <C-]> :ALEGoToDefinition <CR>
+nmap <silent> tt :call GetTerm() <CR>
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 let g:ale_python_flake8_options = '--ignore=E501'
+fu RunProgram()
+	if &filetype ==# 'python'
+		! python3 %
+	elseif &filetype ==# 'javascript'
+		! node %	
+	elseif &filetype ==# 'c'
+		! gcc %; ./a.out; rm a.out
+	elseif &filetype ==# 'cpp'
+		! gcc %; ./a.out; rm a.out
+	else
+		echom "un supported filetype"
+	endif
+endfu
+
+fu GetTerm()
+		terminal
+		wincmd x
+		res 40
+endfu
+
+fu GetCommitLog()
+		wincmd h
+		sp
+		wincmd j
+		GlLog
+		q
+		wincmd k
+		res 40
+		wincmd l
+endfu
+
+fu Get()
+		call GetCommitLog()
+		call GetTerm()
+endfu
+
+au VimEnter * NERDTree | wincmd p
+
+let NERDTreeShowHidden=1
+let g:auto_save = 1
+let g:ctrlp_show_hidden = 1
+
+filetype plugin indent on
+syntax on
+colo onedark 
+set background=dark
+set encoding=UTF-8
+func! s:SetBreakpoint()
+    cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'import ipdb; ipdb.set_trace()')
+endf
+
+func! s:RemoveBreakpoint()
+    exe 'silent! g/^\s*import\sipdb\;\?\n*\s*ipdb.set_trace()/d'
+endf
+
+func! s:ToggleBreakpoint()
+    if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
+endf
+nnoremap <F6> :call <SID>ToggleBreakpoint()<CR>
