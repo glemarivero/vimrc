@@ -158,7 +158,7 @@ function! EnterNormalMode()
 endfunction
 
 tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
-set mouse=a
+set mouse=i
 
 " Valloric
 "let g:ycm_autoclose_preview_window_after_insertion = 1
