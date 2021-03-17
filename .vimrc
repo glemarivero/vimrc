@@ -14,6 +14,7 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 " Plugin 'vim-syntastic/syntastic'
+Plugin 'voldikss/vim-floaterm'
 Plugin 'pixelneo/vim-python-docstring'
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
@@ -36,9 +37,11 @@ Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'Shougo/neopairs.vim'
 Plugin 'Shougo/denite.nvim'
-Plugin 'roxma/vim-hug-neovim-rpc'
-Plugin 'roxma/nvim-yarp'
-Plugin 'deoplete-plugins/deoplete-jedi'
+try
+    Plugin 'roxma/vim-hug-neovim-rpc'
+    Plugin 'roxma/nvim-yarp'
+    Plugin 'deoplete-plugins/deoplete-jedi'
+endtry
 Plugin 'joshdick/onedark.vim'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'vim-airline/vim-airline'
@@ -200,8 +203,6 @@ map <C-j> ciw<C-r>0<ESC>
 " use change inside word instead of change word
 " we can still use cW for cw
 nnoremap cw ciw
-" open NerdTree with Ctrl-n
-nnoremap <C-n> :NERDTreeToggle<CR>
 nmap =j :%!python -m json.tool<CR>
 nmap =jn :%!strip_ipynb<CR>
 nmap yr :call system("ssh -p 2222 127.0.0.1 pbcopy", @*)<CR>
@@ -253,10 +254,17 @@ let g:ale_linters = { 'python': ['pyls']}
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 nmap  <C-]> :ALEGoToDefinition <CR>
-nmap <silent> tt :call GetTerm() <CR>
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-let g:ale_python_flake8_options = '--ignore=E501'
+nmap <silent> tt :call GetTerm()  <CR>
+nmap <silent> <leader>m :call MinimizeTerm() <CR>
+" open NerdTree with nn
+nnoremap <silent> nn :NERDTreeToggle<CR>
+try
+    " Use deoplete.
+    let g:deoplete#enable_at_startup = 1
+    let g:ale_python_flake8_options = '--ignore=E501'
+catch
+    pass
+endtry
 fu RunProgram()
 	if &filetype ==# 'python'
 		! python3 %
@@ -271,10 +279,17 @@ fu RunProgram()
 	endif
 endfu
 
+fu MinimizeTerm()
+    wincmd j
+    res 1
+    wincmd k
+endfu
+
 fu GetTerm()
 		terminal
 		wincmd x
 		res 40
+        wincmd j
 endfu
 
 fu GetCommitLog()
@@ -292,8 +307,6 @@ fu Get()
 		call GetCommitLog()
 		call GetTerm()
 endfu
-
-au VimEnter * NERDTree | wincmd p
 
 let NERDTreeShowHidden=1
 let g:auto_save = 1
@@ -316,3 +329,7 @@ func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
 nnoremap <F6> :call <SID>ToggleBreakpoint()<CR>
+
+" Configuration example
+let g:floaterm_keymap_toggle = '<leader>t'
+let g:floaterm_keymap_kill = '<leader>k'
