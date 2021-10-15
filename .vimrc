@@ -260,7 +260,7 @@ let g:ale_linters = {
             \   'python': ['flake8', 'pylsp', 'bandit', 'mypy'],
             \}
 
-let g:ale_python_pyls_executable = "pylsp"
+let g:ale_python_pylsp_executable = "pyls"
 " pip install python-language-server
 " to change the max-line-length:
 " and then in ~/.config/pycodestyle
