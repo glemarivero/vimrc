@@ -241,8 +241,26 @@ nmap <silent> <C-_> <Plug>(pydocstring)
 nnoremap <C-L> :set relativenumber! number!<CR>
 
 
-" let g:ale_linters = { 'python': ['pyls', 'vulture']}
-let g:ale_linters = { 'python': ['pyls']}
+let g:ale_python_pyls_config = {
+            \   'pylsp': {
+            \     'plugins': {
+            \       'pycodestyle': {
+            \         'enabled': v:true,
+            \       },
+            \       'pyflakes': {
+            \         'enabled': v:true,
+            \       },
+            \       'pydocstyle': {
+            \         'enabled': v:true,
+            \       },
+            \     },
+            \   },
+            \}
+let g:ale_linters = {
+            \   'python': ['flake8', 'pylsp', 'bandit', 'mypy'],
+            \}
+
+let g:ale_python_pyls_executable = "pylsp"
 " pip install python-language-server
 " to change the max-line-length:
 " and then in ~/.config/pycodestyle
@@ -257,7 +275,7 @@ nmap  <C-]> :ALEGoToDefinition <CR>
 nmap <silent> tt :call GetTerm()  <CR>
 nmap <silent> <leader>m :call MinimizeTerm() <CR>
 " open NerdTree with nn
-nnoremap <silent> nn :NERDTreeToggle<CR>
+nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 try
     " Use deoplete.
     let g:deoplete#enable_at_startup = 1
