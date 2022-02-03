@@ -37,6 +37,7 @@ Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'Shougo/neopairs.vim'
 Plugin 'Shougo/denite.nvim'
+Plugin 'psf/black'
 try
     Plugin 'roxma/vim-hug-neovim-rpc'
     Plugin 'roxma/nvim-yarp'
@@ -238,7 +239,7 @@ inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 nmap <silent> <C-_> <Plug>(pydocstring)
 
 " copy from vim
-nnoremap <C-L> :set relativenumber! number!<CR>
+nnoremap <C-L> :set relativenumber! number! mouse=i<CR>
 
 
 let g:ale_python_pyls_config = {
@@ -351,3 +352,10 @@ nnoremap <F6> :call <SID>ToggleBreakpoint()<CR>
 " Configuration example
 let g:floaterm_keymap_toggle = '<leader>t'
 let g:floaterm_keymap_kill = '<leader>k'
+
+let g:black_fast = 0
+let g:black_linelength = 122
+let g:black_skip_string_normalization = 1
+let g:black_quiet = 0
+
+
