@@ -32,17 +32,17 @@ Bundle 'mattn/calendar-vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'dense-analysis/ale'
-Plugin 'Shougo/deoplete.nvim'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'Shougo/neopairs.vim'
 Plugin 'Shougo/denite.nvim'
 Plugin 'psf/black'
-try
+if $VIRTUAL_ENV != ""
     Plugin 'roxma/vim-hug-neovim-rpc'
     Plugin 'roxma/nvim-yarp'
     Plugin 'deoplete-plugins/deoplete-jedi'
-endtry
+    Plugin 'Shougo/deoplete.nvim'
+endif
 Plugin 'joshdick/onedark.vim'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'vim-airline/vim-airline'
