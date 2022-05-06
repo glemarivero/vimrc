@@ -14,6 +14,7 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 " Plugin 'vim-syntastic/syntastic'
+Plugin 'cjrh/vim-conda'
 Plugin 'voldikss/vim-floaterm'
 Plugin 'pixelneo/vim-python-docstring'
 Plugin 'nvie/vim-flake8'
@@ -25,7 +26,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'mileszs/ack.vim'
-Plugin 'scrooloose/nerdcommenter'
+Plugin 'preservim/nerdcommenter'
 Plugin 'heavenshell/vim-pydocstring'
 Plugin 'vimwiki/vimwiki'
 Bundle 'mattn/calendar-vim'
@@ -37,12 +38,10 @@ Plugin 'Shougo/neosnippet-snippets'
 Plugin 'Shougo/neopairs.vim'
 Plugin 'Shougo/denite.nvim'
 Plugin 'psf/black'
-if $VIRTUAL_ENV != ""
-    Plugin 'roxma/vim-hug-neovim-rpc'
-    Plugin 'roxma/nvim-yarp'
-    Plugin 'deoplete-plugins/deoplete-jedi'
-    Plugin 'Shougo/deoplete.nvim'
-endif
+Plugin 'roxma/vim-hug-neovim-rpc'
+Plugin 'roxma/nvim-yarp'
+Plugin 'deoplete-plugins/deoplete-jedi'
+Plugin 'Shougo/deoplete.nvim'
 Plugin 'joshdick/onedark.vim'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'vim-airline/vim-airline'
@@ -54,7 +53,7 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 set relativenumber
 set number
-
+let g:python3_host_prog = "/home/jupyter/.virtualenvs/levi/bin/python"
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -95,14 +94,14 @@ let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "python with virtualenv support
-py3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    exec(compile(open(activate_this, 'rb').read(), activate_this, 'exec'), dict(__file__=activate_this))
-EOF
+" py3 << EOF
+" import os
+" import sys
+"if 'VIRTUAL_ENV' in os.environ:
+    " project_base_dir = os.environ['VIRTUAL_ENV']
+    " activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    " exec(compile(open(activate_this, 'rb').read(), activate_this, 'exec'), dict(__file__=activate_this))
+" EOF
 
 let python_highlight_all=1
 syntax on
@@ -131,6 +130,7 @@ fun! SearchPrev()
 endfun
 
 " Highlight entry
+set incsearch ignorecase smartcase hlsearch
 nnoremap <silent> n :call SearchNext()<CR>
 nnoremap <silent> N :call SearchPrev()<CR>
 
@@ -195,15 +195,12 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 " use Shift TAB to toggle comments
-noremap <S-Tab> :call NERDComment(0,"toggle") <CR>
+noremap <S-Tab> :call nerdcommenter#NERDComment(0,"toggle") <CR>
 vmap <C-c> "+y
 map <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap <C-n> <C-a>:w<cr>
 nnoremap <C-p> <C-x>:w<cr>
 map <C-j> ciw<C-r>0<ESC>
-" use change inside word instead of change word
-" we can still use cW for cw
-nnoremap cw ciw
 nmap =j :%!python -m json.tool<CR>
 nmap =jn :%!strip_ipynb<CR>
 nmap yr :call system("ssh -p 2222 127.0.0.1 pbcopy", @*)<CR>
@@ -258,7 +255,7 @@ let g:ale_python_pyls_config = {
             \   },
             \}
 let g:ale_linters = {
-            \   'python': ['flake8', 'pylsp', 'bandit', 'mypy'],
+            \   'python': ['flake8', 'pylsp', 'mypy'],
             \}
 
 let g:ale_python_pylsp_executable = "pyls"
@@ -277,13 +274,10 @@ nmap <silent> tt :call GetTerm()  <CR>
 nmap <silent> <leader>m :call MinimizeTerm() <CR>
 " open NerdTree with nn
 nnoremap <silent> <leader>n :NERDTreeToggle<CR>
-try
-    " Use deoplete.
-    let g:deoplete#enable_at_startup = 1
-    let g:ale_python_flake8_options = '--ignore=E501'
-catch
-    pass
-endtry
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('num_processes', 1)
+" let g:ale_python_flake8_options = '--ignore=E501'
 fu RunProgram()
 	if &filetype ==# 'python'
 		! python3 %
@@ -357,5 +351,3 @@ let g:black_fast = 0
 let g:black_linelength = 122
 let g:black_skip_string_normalization = 1
 let g:black_quiet = 0
-
-
