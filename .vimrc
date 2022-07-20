@@ -14,6 +14,8 @@ Plugin 'gmarik/Vundle.vim'
 " used Bundle instead of Plugin)
 
 " Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
 Plugin 'cjrh/vim-conda'
 Plugin 'voldikss/vim-floaterm'
 Plugin 'pixelneo/vim-python-docstring'
@@ -342,6 +344,7 @@ func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
 nnoremap <F6> :call <SID>ToggleBreakpoint()<CR>
+nnoremap " ysiw{
 
 " Configuration example
 let g:floaterm_keymap_toggle = '<leader>t'
@@ -351,3 +354,6 @@ let g:black_fast = 0
 let g:black_linelength = 122
 let g:black_skip_string_normalization = 1
 let g:black_quiet = 0
+
+" Auto close preview
+let g:SuperTabClosePreviewOnPopupClose = 1
